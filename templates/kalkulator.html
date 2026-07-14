@@ -1,0 +1,414 @@
+{% extends "layout.html" %} {% block title %}Kalkulator Dosis Pupuk — SPK PT Petrokimia Gresik{% endblock %} {% block meta_desc %}Kalkulator dosis pupuk padi sawah berbasis Random Forest Regression. Input kondisi tanah
+& lingkungan, dapatkan rekomendasi Urea, SP-36, K-Plus, dan Petroganik Premium.{% endblock %} {% block content %}
+
+<!-- ===================== PAGE HEADER ===================== -->
+<div class="bg-gradient-to-br from-primary-dark to-primary py-16 relative overflow-hidden">
+    <div
+        class="absolute inset-0 opacity-10"
+        style="
+            background-image: url('data:image/svg+xml,<svg width=&quot;40&quot; height=&quot;40&quot; viewBox=&quot;0 0 40 40&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><g fill=&quot;white&quot; fill-opacity=&quot;0.4&quot;><circle cx=&quot;20&quot; cy=&quot;20&quot; r=&quot;2&quot;/></g></svg>');
+        "
+    ></div>
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/90 text-xs font-medium px-4 py-1.5 rounded-full mb-4"><span class="text-lg">🧮</span> Kalkulator Dosis Pupuk</div>
+        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">Hitung Dosis Pupuk Optimal</h1>
+        <p class="text-white/75 text-base max-w-xl mx-auto">
+            Isi parameter kondisi tanah, lingkungan, dan target panen untuk mendapatkan rekomendasi dosis menggunakan algoritma Random Forest Regression.
+        </p>
+    </div>
+</div>
+
+<!-- ===================== FORM SECTION ===================== -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <form id="form-kalkulator" novalidate>
+            <!-- ---- KONDISI TANAH ---- -->
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 mb-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-primary-pale rounded-xl flex items-center justify-center text-xl">🧪</div>
+                    <div>
+                        <h2 class="font-bold text-gray-900 text-lg">Kondisi Tanah</h2>
+                        <p class="text-xs text-gray-500">Data analisis laboratorium tanah sawah</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- pH Tanah -->
+                    <div class="form-group">
+                        <label for="ph" class="form-label">pH Tanah <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="ph" name="ph" step="0.01" min="0" max="14" placeholder="cth: 5.85" class="form-input" required aria-describedby="ph-help" />
+                            <span class="input-unit">pH</span>
+                        </div>
+                        <p id="ph-help" class="form-hint">Rentang dataset: 2.5 – 8.0</p>
+                        <p class="form-error hidden" id="ph-error"></p>
+                    </div>
+
+                    <!-- C-Organik -->
+                    <div class="form-group">
+                        <label for="c_organik" class="form-label">C-Organik <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="c_organik" name="c_organik" step="0.01" min="0" placeholder="cth: 1.79" class="form-input" required aria-describedby="c-organik-help" />
+                            <span class="input-unit">%</span>
+                        </div>
+                        <p id="c-organik-help" class="form-hint">Rentang dataset: 0.1 – 4.7</p>
+                        <p class="form-error hidden" id="c_organik-error"></p>
+                    </div>
+
+                    <!-- N-Total -->
+                    <div class="form-group">
+                        <label for="n_total" class="form-label">N-Total <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="n_total" name="n_total" step="0.001" min="0" placeholder="cth: 0.14" class="form-input" required />
+                            <span class="input-unit">%</span>
+                        </div>
+                        <p class="form-hint">Rentang dataset: 0.02 – 0.43</p>
+                        <p class="form-error hidden" id="n_total-error"></p>
+                    </div>
+
+                    <!-- P-Total -->
+                    <div class="form-group">
+                        <label for="p_total" class="form-label">P-Total <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="p_total" name="p_total" step="0.01" min="0" placeholder="cth: 173" class="form-input" required />
+                            <span class="input-unit">mg/100g</span>
+                        </div>
+                        <p class="form-hint">Rentang dataset: 18 – 681</p>
+                        <p class="form-error hidden" id="p_total-error"></p>
+                    </div>
+
+                    <!-- K-Total -->
+                    <div class="form-group">
+                        <label for="k_total" class="form-label">K-Total <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="k_total" name="k_total" step="0.01" min="0" placeholder="cth: 47.75" class="form-input" required />
+                            <span class="input-unit">mg/100g</span>
+                        </div>
+                        <p class="form-hint">Rentang dataset: 11 – 574</p>
+                        <p class="form-error hidden" id="k_total-error"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ---- DETEKSI CUACA OTOMATIS (OPSIONAL) ---- -->
+            <div class="bg-white rounded-3xl border border-sky-100 shadow-sm p-6 mb-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm flex-shrink-0">🌤️</div>
+                    <div class="flex-1">
+                        <h2 class="font-bold text-gray-900 text-lg">Data Cuaca Real-Time <span class="text-xs font-normal text-gray-500">(Opsional)</span></h2>
+                        <p class="text-xs text-gray-600 mt-1">
+                            Klik tombol untuk mendeteksi lokasi Anda. Sistem akan mengambil <strong>suhu terkini</strong> dan <strong>curah hujan 30 hari terakhir</strong> dari Open-Meteo API. Field Suhu &amp; Curah Hujan akan terisi
+                            otomatis (tetap bisa diedit manual).
+                        </p>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    id="btn-detect-cuaca"
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 active:scale-95 transition-all duration-200 shadow-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span id="btn-detect-text">Deteksi Lokasi &amp; Ambil Data Cuaca</span>
+                </button>
+
+                <!-- Status / loading -->
+                <div id="cuaca-status" class="mt-3 text-sm hidden"></div>
+
+                <!-- Hasil cuaca (chips) -->
+                <div id="cuaca-chips" class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 hidden">
+                    <div class="bg-white border border-sky-200 rounded-xl px-4 py-3 flex items-center gap-2">
+                        <span class="text-lg">📍</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[10px] uppercase tracking-wide text-gray-500 font-semibold">Lokasi</p>
+                            <p id="chip-lokasi" class="text-sm font-medium text-gray-900 truncate">—</p>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-sky-200 rounded-xl px-4 py-3 flex items-center gap-2">
+                        <span class="text-lg">🌡️</span>
+                        <div class="flex-1">
+                            <p class="text-[10px] uppercase tracking-wide text-gray-500 font-semibold">Suhu Terkini</p>
+                            <p class="text-sm font-medium text-gray-900"><span id="chip-suhu">—</span> °C</p>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-sky-200 rounded-xl px-4 py-3 flex items-center gap-2">
+                        <span class="text-lg">🌧️</span>
+                        <div class="flex-1">
+                            <p class="text-[10px] uppercase tracking-wide text-gray-500 font-semibold">Curah Hujan 30 Hari</p>
+                            <p class="text-sm font-medium text-gray-900"><span id="chip-hujan">—</span> mm</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-[11px] text-gray-500 mt-3">
+                    💡 Sumber: <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-sky-700">Open-Meteo API</a> &amp;
+                    <a href="https://nominatim.openstreetmap.org/" target="_blank" rel="noopener" class="underline hover:text-sky-700">Nominatim OSM</a>
+                </p>
+            </div>
+
+            <!-- ---- FAKTOR LINGKUNGAN ---- -->
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 mb-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-xl">🌦️</div>
+                    <div>
+                        <h2 class="font-bold text-gray-900 text-lg">Faktor Lingkungan</h2>
+                        <p class="text-xs text-gray-500">Data iklim dan karakteristik fisik lahan</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- Curah Hujan -->
+                    <div class="form-group">
+                        <label for="curah_hujan" class="form-label">Curah Hujan <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="curah_hujan" name="curah_hujan" step="0.1" min="0" placeholder="cth: 158" class="form-input" required />
+                            <span class="input-unit">mm</span>
+                        </div>
+                        <p class="form-hint">Rentang dataset: 50 – 350</p>
+                        <p class="form-error hidden" id="curah_hujan-error"></p>
+                    </div>
+
+                    <!-- Suhu -->
+                    <div class="form-group">
+                        <label for="suhu" class="form-label">Suhu Rata-Rata <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="suhu" name="suhu" step="0.1" placeholder="cth: 27.3" class="form-input" required />
+                            <span class="input-unit">°C</span>
+                        </div>
+                        <p class="form-hint">Rentang dataset: 21 – 32</p>
+                        <p class="form-error hidden" id="suhu-error"></p>
+                    </div>
+
+                    <!-- Jenis Tanah -->
+                    <div class="form-group">
+                        <label for="jenis_tanah" class="form-label">Jenis Tanah <span class="text-red-500">*</span></label>
+                        <div class="input-wrapper select-wrapper">
+                            <select id="jenis_tanah" name="jenis_tanah" class="form-input form-select" required>
+                                <option value="" disabled selected>Pilih jenis tanah...</option>
+                                {% for tanah in kelas_tanah %}
+                                <option value="{{ tanah }}">{{ tanah|capitalize }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="select-arrow">▾</span>
+                        </div>
+                        <p class="form-error hidden" id="jenis_tanah-error"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ---- TARGET PANEN ---- -->
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 mb-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-secondary-pale rounded-xl flex items-center justify-center text-xl">🎯</div>
+                    <div>
+                        <h2 class="font-bold text-gray-900 text-lg">Target Produksi</h2>
+                        <p class="text-xs text-gray-500">Target panen yang ingin dicapai</p>
+                    </div>
+                </div>
+
+                <div class="max-w-xs">
+                    <label for="target_panen" class="form-label">Target Panen <span class="text-red-500">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="number" id="target_panen" name="target_panen" step="0.1" min="0.1" max="12" placeholder="cth: 5" class="form-input" required />
+                        <span class="input-unit">ton/ha</span>
+                    </div>
+                    <p class="form-hint">Rentang dataset: 2 – 8 ton/ha</p>
+                    <p class="form-error hidden" id="target_panen-error"></p>
+                </div>
+            </div>
+
+            <!-- ---- SUBMIT ---- -->
+            <div class="text-center">
+                <button
+                    type="submit"
+                    id="btn-submit"
+                    class="inline-flex items-center gap-3 px-10 py-4 rounded-2xl font-bold text-white text-base bg-gradient-to-r from-primary-dark to-primary hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/30 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="4" y="2" width="16" height="20" rx="2" ry="2" stroke-width="2" />
+                        <rect x="7" y="5" width="10" height="4" rx="1" stroke-width="1.5" />
+                        <circle cx="8" cy="13" r="1" fill="currentColor" stroke="none" />
+                        <circle cx="12" cy="13" r="1" fill="currentColor" stroke="none" />
+                        <circle cx="16" cy="13" r="1" fill="currentColor" stroke="none" />
+                        <circle cx="8" cy="17" r="1" fill="currentColor" stroke="none" />
+                        <circle cx="12" cy="17" r="1" fill="currentColor" stroke="none" />
+                        <line x1="14.5" y1="17" x2="17.5" y2="17" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Hitung Dosis Pupuk
+                </button>
+                <p class="text-xs text-gray-400 mt-3">Semua field wajib diisi sebelum menghitung</p>
+            </div>
+        </form>
+
+        <!-- ===================== LOADING ===================== -->
+        <div id="loading" class="hidden my-10 text-center">
+            <div class="inline-flex flex-col items-center gap-4 bg-white rounded-3xl px-12 py-10 shadow-lg">
+                <div class="loading-spinner"></div>
+                <div>
+                    <p class="font-semibold text-gray-800">Memproses dengan Model ML...</p>
+                    <p class="text-sm text-gray-400 mt-1">Harap tunggu sebentar</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== RESULT SECTION ===================== -->
+        <div id="result-section" class="hidden mt-10">
+            <!-- Success Banner -->
+            <div class="bg-gradient-to-r from-primary-dark to-primary rounded-3xl p-6 mb-6 text-white flex items-center gap-4">
+                <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">✅</div>
+                <div class="flex-1">
+                    <p class="font-bold text-lg">Prediksi Berhasil!</p>
+                    <p class="text-white/80 text-sm">Berikut rekomendasi dosis pupuk berdasarkan kondisi lahan yang diinput, dihitung dengan algoritma <strong>Random Forest Regressor</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Dosis Cards -->
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Dosis Pupuk yang Direkomendasikan</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <!-- Petroganik -->
+                <div class="result-card bg-gradient-to-br from-green-600 to-emerald-500 rounded-3xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <img src="{{ url_for('static', filename='images/Pupuk Petroganik Premium.png') }}" alt="Petroganik Premium" class="h-16 w-16 object-contain drop-shadow-lg" />
+                        <span class="text-xs bg-white/20 px-3 py-1 rounded-full">Organik</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-1">Petroganik Premium</h3>
+                    <p class="text-white/70 text-sm mb-4">Pupuk Organik — Pembenah Tanah</p>
+                    <div class="bg-white/20 rounded-2xl px-5 py-3">
+                        <p id="res-petroganik" class="text-3xl font-extrabold tracking-tight">— kg/ha</p>
+                    </div>
+                </div>
+
+                <!-- Urea -->
+                <div class="result-card bg-gradient-to-br from-blue-600 to-cyan-500 rounded-3xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <img src="{{ url_for('static', filename='images/Pupuk Urea.png') }}" alt="Urea Petro" class="h-16 w-16 object-contain drop-shadow-lg" />
+                        <span class="text-xs bg-white/20 px-3 py-1 rounded-full">Nitrogen (N)</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-1">Urea Petro</h3>
+                    <p class="text-white/70 text-sm mb-4">Sumber Nitrogen — N 46%</p>
+                    <div class="bg-white/20 rounded-2xl px-5 py-3">
+                        <p id="res-urea" class="text-3xl font-extrabold tracking-tight">— kg/ha</p>
+                    </div>
+                </div>
+
+                <!-- SP-36 -->
+                <div class="result-card bg-gradient-to-br from-yellow-500 to-amber-400 rounded-3xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <img src="{{ url_for('static', filename='images/PupukSp-36.png') }}" alt="SP-36" class="h-16 w-16 object-contain drop-shadow-lg" />
+                        <span class="text-xs bg-white/20 px-3 py-1 rounded-full">Fosfor (P)</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-1">SP-36</h3>
+                    <p class="text-white/70 text-sm mb-4">Sumber Fosfor — P₂O₅ 36%</p>
+                    <div class="bg-white/20 rounded-2xl px-5 py-3">
+                        <p id="res-sp36" class="text-3xl font-extrabold tracking-tight">— kg/ha</p>
+                    </div>
+                </div>
+
+                <!-- K-Plus -->
+                <div class="result-card bg-gradient-to-br from-red-500 to-rose-400 rounded-3xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <img src="{{ url_for('static', filename='images/Pupuk K Plus.png') }}" alt="K-Plus" class="h-16 w-16 object-contain drop-shadow-lg" />
+                        <span class="text-xs bg-white/20 px-3 py-1 rounded-full">Kalium (K)</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-1">K-Plus</h3>
+                    <p class="text-white/70 text-sm mb-4">Sumber Kalium — K₂O 30% + Boron</p>
+                    <div class="bg-white/20 rounded-2xl px-5 py-3">
+                        <p id="res-kplus" class="text-3xl font-extrabold tracking-tight">— kg/ha</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Tabel Rekomendasi Aplikasi -->
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📋</span>
+                        <div>
+                            <h2 class="font-bold text-gray-900">Panduan Aplikasi Pupuk</h2>
+                            <p class="text-xs text-gray-500">Waktu dan cara pengaplikasian di lapangan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th class="px-6 py-3 text-left font-semibold">Pupuk</th>
+                                <th class="px-6 py-3 text-left font-semibold">Waktu Aplikasi</th>
+                                <th class="px-6 py-3 text-left font-semibold">Cara Aplikasi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr class="hover:bg-green-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span>🌿</span>
+                                        <span class="font-medium text-gray-900">Petroganik Premium</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">Sebelum tanam / saat olah tanah</td>
+                                <td class="px-6 py-4 text-gray-600">Ditebar dan dibenamkan ke dalam tanah</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span>🔵</span>
+                                        <span class="font-medium text-gray-900">Urea</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">3 tahap: vegetatif awal, anakan maksimum, awal malai</td>
+                                <td class="px-6 py-4 text-gray-600">Ditebar merata (split application)</td>
+                            </tr>
+                            <tr class="hover:bg-yellow-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span>🟡</span>
+                                        <span class="font-medium text-gray-900">SP-36</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">Satu kali saat olah tanah terakhir / menjelang tanam</td>
+                                <td class="px-6 py-4 text-gray-600">Ditebar merata</td>
+                            </tr>
+                            <tr class="hover:bg-red-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span>🔴</span>
+                                        <span class="font-medium text-gray-900">K-Plus</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">Fase vegetatif hingga awal generatif</td>
+                                <td class="px-6 py-4 text-gray-600">Ditebar merata</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="mt-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex gap-3">
+                <span class="text-amber-500 text-xl flex-shrink-0">⚠️</span>
+                <p class="text-sm text-amber-800">
+                    <strong>Catatan:</strong> Rekomendasi ini bersifat indikatif berdasarkan model machine learning yang telah dilatih dari data uji tanah PT Petrokimia Gresik. Konsultasikan dengan agronomis lapangan sebelum penerapan skala
+                    luas.
+                </p>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="text-center mt-8">
+                <button type="button" id="btn-reset" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Hitung Ulang
+                </button>
+            </div>
+        </div>
+        <!-- end #result-section -->
+    </div>
+</section>
+
+{% endblock %}

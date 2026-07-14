@@ -1,0 +1,466 @@
+{% extends "layout.html" %}
+
+{% block title %}Beranda — SPK Pupuk Padi PT Petrokimia Gresik{% endblock %}
+{% block meta_desc %}Sistem Rekomendasi Dosis Pupuk Padi Berbasis AI untuk tanaman padi sawah. Studi Kasus PT Petrokimia Gresik oleh Universitas Airlangga.{% endblock %}
+
+{% block content %}
+
+<!-- ===================== HERO ===================== -->
+<section id="hero"
+  class="relative min-h-screen flex items-center overflow-hidden
+         bg-gradient-to-br from-primary-dark via-primary to-primary-light">
+
+  <!-- Decorative blobs -->
+  <div class="absolute top-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-80 h-80 bg-secondary/20 rounded-full blur-3xl pointer-events-none"></div>
+  <!-- Extra blob untuk kedalaman visual -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/3 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+
+      <!-- ══ KOLOM KIRI: Teks ══ -->
+      <div class="hero-text-col">
+
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/90
+                    text-xs font-medium px-4 py-1.5 rounded-full mb-6 backdrop-blur-sm
+                    animate-fadein" style="animation-delay:0s">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse"></span>
+          Studi Kasus PT Petrokimia Gresik · Universitas Airlangga
+        </div>
+
+        <!-- Heading — lebih ringkas, 2 baris saja -->
+        <h1 class="font-extrabold text-white leading-tight mb-5
+                   text-4xl sm:text-5xl lg:text-5xl xl:text-6xl
+                   animate-fadein" style="animation-delay:0.1s">
+          SPK Penentuan<br/>
+          <span class="relative inline-block">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-100">
+              Dosis Pupuk Padi Sawah
+            </span>
+            <!-- underline dekorasi -->
+            <svg class="absolute -bottom-1 left-0 w-full" viewBox="0 0 300 8" preserveAspectRatio="none"
+                 height="6" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 6 Q75 0 150 4 Q225 8 300 2" stroke="#fbbf24" stroke-width="2.5"
+                    fill="none" stroke-linecap="round" opacity="0.7"/>
+            </svg>
+          </span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-white/75 mb-7 max-w-lg leading-relaxed
+                  animate-fadein" style="animation-delay:0.2s">
+          Input kondisi tanah & faktor lingkungan, sistem menentukan dosis optimal
+          <strong class="text-white">Urea, SP-36, K-Plus,</strong> dan
+          <strong class="text-white">Petroganik Premium</strong> secara otomatis.
+        </p>
+
+        <!-- Feature pills -->
+        <div class="flex flex-wrap gap-2 mb-8 animate-fadein" style="animation-delay:0.3s">
+          <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15
+                       text-white/85 text-xs font-medium px-3 py-1.5 rounded-full">
+            <svg class="w-3 h-3 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            4 Output Pupuk Sekaligus
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15
+                       text-white/85 text-xs font-medium px-3 py-1.5 rounded-full">
+            <svg class="w-3 h-3 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            Cuaca Real-Time Otomatis
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15
+                       text-white/85 text-xs font-medium px-3 py-1.5 rounded-full">
+            <svg class="w-3 h-3 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            R² &gt; 92% Akurasi
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15
+                       text-white/85 text-xs font-medium px-3 py-1.5 rounded-full">
+            <svg class="w-3 h-3 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            Random Forest vs XGBoost
+          </span>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap gap-4 mb-12 animate-fadein" style="animation-delay:0.4s">
+          <a href="/kalkulator" id="hero-cta-primary"
+             class="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-primary bg-white
+                    hover:shadow-2xl hover:shadow-black/20 hover:-translate-y-1
+                    transition-all duration-300 text-base">
+            Mulai Hitung Dosis Pupuk
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+          <a href="/edukasi" id="hero-cta-secondary"
+             class="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-semibold text-white
+                    border border-white/30 bg-white/10 backdrop-blur-sm
+                    hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 text-base">
+            Pelajari Pemupukan
+          </a>
+        </div>
+
+        <!-- Stats row — dengan ikon -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 animate-fadein" style="animation-delay:0.5s">
+          <div class="bg-white/8 border border-white/10 rounded-2xl px-4 py-3 text-center backdrop-blur-sm">
+            <p class="text-2xl font-extrabold text-white stat-count" data-target="3352">3.352</p>
+            <p class="text-[11px] text-white/55 mt-0.5">Data Pelatihan</p>
+          </div>
+          <div class="bg-white/8 border border-white/10 rounded-2xl px-4 py-3 text-center backdrop-blur-sm">
+            <p class="text-2xl font-extrabold text-white">4</p>
+            <p class="text-[11px] text-white/55 mt-0.5">Jenis Pupuk</p>
+          </div>
+          <div class="bg-white/8 border border-white/10 rounded-2xl px-4 py-3 text-center backdrop-blur-sm">
+            <p class="text-2xl font-extrabold text-white">2</p>
+            <p class="text-[11px] text-white/55 mt-0.5">Algoritma ML</p>
+          </div>
+          <div class="bg-white/8 border border-white/10 rounded-2xl px-4 py-3 text-center backdrop-blur-sm">
+            <p class="text-2xl font-extrabold text-white">9</p>
+            <p class="text-[11px] text-white/55 mt-0.5">Variabel Input</p>
+          </div>
+        </div>
+
+      </div><!-- /kolom kiri -->
+
+
+      <!-- ══ KOLOM KANAN: Mock Result Card ══ -->
+      <div class="hidden lg:flex flex-col items-center justify-center gap-4 animate-fadein"
+           style="animation-delay:0.35s">
+
+        <!-- Judul mock card -->
+        <p class="text-white/40 text-xs font-semibold uppercase tracking-widest mb-1">
+          Contoh Output Sistem
+        </p>
+
+        <!-- Card utama -->
+        <div class="w-full max-w-sm bg-white/10 border border-white/20 backdrop-blur-md
+                    rounded-3xl p-6 shadow-2xl shadow-black/30 hero-mock-card">
+
+          <!-- Header card -->
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <p class="text-white/60 text-xs">Hasil Prediksi untuk</p>
+              <p class="text-white font-bold text-sm">Sawah Lempung · 6 ton/ha</p>
+            </div>
+            <span class="bg-green-400/20 border border-green-400/30 text-green-300
+                         text-[10px] font-semibold px-2.5 py-1 rounded-full">
+              ✓ Selesai
+            </span>
+          </div>
+
+          <!-- 4 pupuk mini cards -->
+          <div class="grid grid-cols-2 gap-3 mb-5">
+            <div class="bg-green-600/40 border border-green-400/20 rounded-2xl p-3">
+              <p class="text-green-200 text-[10px] font-semibold uppercase tracking-wide mb-1">Petroganik</p>
+              <p class="text-white font-extrabold text-lg leading-tight">577 <span class="text-xs font-normal text-white/60">kg/ha</span></p>
+            </div>
+            <div class="bg-blue-600/40 border border-blue-400/20 rounded-2xl p-3">
+              <p class="text-blue-200 text-[10px] font-semibold uppercase tracking-wide mb-1">Urea</p>
+              <p class="text-white font-extrabold text-lg leading-tight">143 <span class="text-xs font-normal text-white/60">kg/ha</span></p>
+            </div>
+            <div class="bg-yellow-500/40 border border-yellow-400/20 rounded-2xl p-3">
+              <p class="text-yellow-200 text-[10px] font-semibold uppercase tracking-wide mb-1">SP-36</p>
+              <p class="text-white font-extrabold text-lg leading-tight">114 <span class="text-xs font-normal text-white/60">kg/ha</span></p>
+            </div>
+            <div class="bg-red-500/40 border border-red-400/20 rounded-2xl p-3">
+              <p class="text-red-200 text-[10px] font-semibold uppercase tracking-wide mb-1">K-Plus</p>
+              <p class="text-white font-extrabold text-lg leading-tight">180 <span class="text-xs font-normal text-white/60">kg/ha</span></p>
+            </div>
+          </div>
+
+          <!-- Model info bar -->
+          <div class="bg-white/8 border border-white/10 rounded-xl px-3 py-2.5
+                      flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🤖</span>
+              <div>
+                <p class="text-white/50 text-[10px]">Model Terbaik</p>
+                <p class="text-white text-xs font-semibold">XGBoost Regressor dan Random Forest Regressor</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-white/50 text-[10px]">R² Score</p>
+              <p class="text-green-300 text-xs font-bold">0.92</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating badge di bawah card -->
+        <!-- <div class="flex items-center gap-2 bg-white/8 border border-white/15 rounded-full
+                    px-4 py-2 text-white/60 text-xs">
+          <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+          Data real berdasarkan 3.352 sampel tanah sawah
+        </div> -->
+
+      </div><!-- /kolom kanan -->
+
+    </div><!-- /grid 2-col -->
+  </div>
+
+  <style>
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadein {
+      opacity: 0;
+      animation: fadein 0.6s ease-out forwards;
+    }
+    .hero-mock-card {
+      animation: float-card 5s ease-in-out infinite;
+    }
+    @keyframes float-card {
+      0%, 100% { transform: translateY(0px) rotate(-0.5deg); }
+      50%       { transform: translateY(-10px) rotate(0.5deg); }
+    }
+    .bg-white\/8 { background-color: rgba(255,255,255,0.08); }
+  </style>
+
+  <!-- Wave divider -->
+  <div class="absolute bottom-0 left-0 right-0" style="line-height:0; margin-bottom:-2px;">
+    <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+      <path d="M0 80L1440 80L1440 30C1200 80 960 10 720 40C480 70 240 0 0 30L0 80Z" fill="#f9fafb"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ===================== MENGAPA PENTING ===================== -->
+<section id="mengapa-penting" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+
+      <!-- Text -->
+      <div>
+        <div class="inline-block bg-secondary-pale text-secondary-dark text-xs font-semibold
+                    px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+          Mengapa Penting?
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-5 leading-tight">
+          Pemupukan Tepat = <br/>
+          <span class="text-primary">Panen Optimal</span>
+        </h2>
+        <p class="text-gray-600 mb-5 leading-relaxed">
+          Berdasarkan data <strong>BPS 2024</strong>, produksi padi di Indonesia mengalami
+          penurunan sebesar <strong>0,84 juta ton</strong>. Salah satu faktor utamanya adalah
+          ketidaksesuaian dosis pemupukan — baik kekurangan maupun kelebihan — yang
+          mengakibatkan hasil panen tidak optimal.
+        </p>
+        <p class="text-gray-600 mb-8 leading-relaxed">
+          Sistem ini menerapkan prinsip <strong>4T Pemupukan Berimbang</strong> yang direkomendasikan
+          oleh Permentan No. 40/2007, diperkuat dengan kecerdasan buatan untuk
+          mengakomodasi variabilitas kondisi lahan aktual.
+        </p>
+
+        <!-- 4T Cards -->
+        <div class="grid grid-cols-2 gap-3">
+          {% for item in [
+            ('🎯', 'Tepat Sumber', 'Pupuk sesuai kebutuhan nutrisi tanah'),
+            ('⚖️', 'Tepat Jumlah', 'Dosis optimal berbasis data lapangan'),
+            ('📍', 'Tepat Lokasi', 'Spesifik sesuai kondisi lahan'),
+            ('⏰', 'Tepat Waktu', 'Aplikasi sesuai fase pertumbuhan'),
+          ] %}
+          <div class="bg-white rounded-2xl p-4 border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all">
+            <p class="text-2xl mb-1">{{ item[0] }}</p>
+            <p class="font-semibold text-gray-900 text-sm">{{ item[1] }}</p>
+            <p class="text-xs text-gray-500 mt-0.5">{{ item[2] }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Visual Card -->
+      <div class="relative">
+        <div class="bg-gradient-to-br from-primary-dark to-primary rounded-3xl p-8 text-white shadow-2xl">
+          <p class="text-sm font-medium text-primary-pale/70 mb-1 uppercase tracking-wider">Dampak Sistem</p>
+          <h3 class="text-2xl font-bold mb-6">Optimasi Produksi Padi</h3>
+
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-white/80">Tanpa Sistem SPK</span>
+                <span class="font-semibold">~4 ton/ha</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-2.5">
+                <div class="bg-secondary-light h-2.5 rounded-full" style="width: 50%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-white/80">Dengan Sistem SPK AI</span>
+                <span class="font-semibold">~7 ton/ha</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-2.5">
+                <div class="bg-green-300 h-2.5 rounded-full" style="width: 87%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-white/80">Potensi Nasional</span>
+                <span class="font-semibold">~8 ton/ha</span>
+              </div>
+              <div class="w-full bg-white/20 rounded-full h-2.5">
+                <div class="bg-yellow-300 h-2.5 rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-5 border-t border-white/20 flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-xl">🤖</div>
+            <p class="text-sm text-white/80">Prediksi menggunakan <strong class="text-white">XGBoost Regressor dan Random Forest Regressor</Form></strong></p>
+          </div>
+        </div>
+
+        <!-- Decorative dot -->
+        <div class="absolute -top-4 -right-4 w-20 h-20 bg-secondary/30 rounded-full blur-xl"></div>
+        <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-primary-pale/50 rounded-full blur-xl"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== FITUR SISTEM ===================== -->
+<section id="fitur" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="inline-block bg-primary-pale text-primary text-xs font-semibold
+                  px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+        Fitur Utama
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Kemampuan Sistem</h2>
+      <p class="text-gray-500 mt-3 max-w-xl mx-auto">
+        Tiga pilar utama yang mendukung akurasi dan kemudahan penggunaan sistem rekomendasi ini.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for icon, title, desc, color in [
+        ('🧪', 'Analisis Kondisi Tanah', 'Input 9 parameter lengkap: pH, C-Organik, N, P, K total, curah hujan, suhu, jenis tanah, dan target panen.', 'from-blue-50 to-primary-pale border-blue-100'),
+        ('🤖', 'Prediksi dengan Machine Learning', 'Model Random Forest atau XGBoost terpilih berdasarkan evaluasi MAE, RMSE, dan R² terbaik dari 3.352 data pelatihan.', 'from-primary-pale to-green-50 border-primary/20'),
+        ('📋', 'Rekomendasi Aplikasi Pupuk', 'Output lengkap dosis kg/ha disertai panduan waktu dan cara aplikasi untuk setiap jenis pupuk PT Petrokimia Gresik.', 'from-secondary-pale to-orange-50 border-secondary/20'),
+      ] %}
+      <div class="feature-card group bg-gradient-to-br {{ color }} border rounded-3xl p-8
+                  hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-default">
+        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-3xl mb-5
+                    shadow-sm group-hover:scale-110 transition-transform duration-300">
+          {{ icon }}
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-3">{{ title }}</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== CARA KERJA ===================== -->
+<section id="cara-kerja" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="inline-block bg-primary-pale text-primary text-xs font-semibold
+                  px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+        Alur Sistem
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Cara Kerja</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% for step, icon, title, desc in [
+        (1, '📝', 'Input Data Lahan', 'Isi 9 parameter kondisi tanah, lingkungan, dan target panen pada form kalkulator.'),
+        (2, '⚡', 'Proses Model ML', 'Data diproses oleh model Random Forest atau XGBoost yang telah dilatih.'),
+        (3, '📊', 'Output Dosis (kg/ha)', 'Sistem menampilkan dosis optimal 4 pupuk dalam satuan kg/ha.'),
+        (4, '🌱', 'Rekomendasi Aplikasi', 'Panduan waktu dan cara pengaplikasian pupuk di lapangan.'),
+      ] %}
+      <div class="relative">
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 hover:border-primary/30
+                    hover:shadow-lg transition-all duration-300 h-full">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-xl bg-primary text-white text-sm font-bold
+                        flex items-center justify-center flex-shrink-0">
+              {{ step }}
+            </div>
+            <span class="text-2xl">{{ icon }}</span>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-2">{{ title }}</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">{{ desc }}</p>
+        </div>
+        {% if step < 4 %}
+        <div class="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+          <svg class="w-6 h-6 text-primary/40" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== PRODUK PUPUK ===================== -->
+<section id="produk-pupuk" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="inline-block bg-secondary-pale text-secondary-dark text-xs font-semibold
+                  px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+        Produk PT Petrokimia Gresik
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Pupuk yang Direkomendasikan</h2>
+      <p class="text-gray-500 mt-3 max-w-xl mx-auto">
+        Sistem memberikan rekomendasi dosis untuk 4 produk unggulan PT Petrokimia Gresik.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% for img_file, name, nutrisi, kandungan, color_class, desc in [
+        ('Pupuk Petroganik Premium.png', 'Petroganik Premium', 'Organik / Pembenah Tanah', 'C-organik min. 15%', 'from-green-600 to-emerald-500', 'Memperbaiki sifat fisik, kimia, dan biologi tanah sawah.'),
+        ('Pupuk Urea.png', 'Urea Petro', 'Sumber Nitrogen (N)', 'N 46%', 'from-blue-600 to-cyan-500', 'Mendukung pertumbuhan vegetatif dan pembentukan klorofil.'),
+        ('PupukSp-36.png', 'SP-36', 'Sumber Fosfor (P)', 'P₂O₅ 36%', 'from-yellow-500 to-amber-400', 'Pembentukan akar kuat dan mendukung fase awal pertumbuhan.'),
+        ('Pupuk K Plus.png', 'K-Plus', 'Sumber Kalium (K)', 'K₂O 30% + Boron', 'from-red-500 to-rose-400', 'Penguatan batang, pembentukan malai, dan serapan N optimal.'),
+      ] %}
+      <div class="group rounded-3xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2
+                  transition-all duration-300 border border-gray-100">
+        <div class="bg-gradient-to-br {{ color_class }} p-6 text-white">
+          <div class="mb-3">
+            <img src="{{ url_for('static', filename='images/' ~ img_file) }}" alt="{{ name }}" class="h-20 w-20 object-contain drop-shadow-lg">
+          </div>
+          <h3 class="font-bold text-lg leading-tight">{{ name }}</h3>
+          <p class="text-white/80 text-sm mt-1">{{ nutrisi }}</p>
+        </div>
+        <div class="bg-white p-5">
+          <div class="inline-block bg-gray-100 text-gray-700 text-xs font-mono font-medium
+                      px-3 py-1 rounded-lg mb-3">
+            {{ kandungan }}
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- CTA bottom -->
+    <div class="text-center mt-12">
+      <a href="/kalkulator" id="home-bottom-cta"
+         class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-base
+                bg-gradient-to-r from-primary-dark to-primary
+                hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1
+                transition-all duration-300">
+        <span>Hitung Dosis Sekarang</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

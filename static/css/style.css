@@ -1,0 +1,186 @@
+/* =====================================================
+   AgriSmart SPK — Custom CSS
+   Tailwind digunakan sebagai framework utama.
+   File ini berisi animasi, komponen form, dan
+   utility tambahan yang tidak tersedia di Tailwind.
+   ===================================================== */
+
+/* -------- CSS Custom Properties -------- */
+:root {
+  --primary:        #2d6a4f;
+  --primary-light:  #40916c;
+  --primary-dark:   #1b4332;
+  --primary-pale:   #d8f3dc;
+  --secondary:      #a07850;
+  --secondary-light:#d4a574;
+  --secondary-dark: #7d5c3c;
+  --secondary-pale: #fdf0e0;
+}
+
+/* -------- Smooth scrolling -------- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* -------- Focus ring global -------- */
+:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+/* -------- Floating animation (hero icon) -------- */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-18px); }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* -------- Loading Spinner -------- */
+.loading-spinner {
+  width: 52px;
+  height: 52px;
+  border: 4px solid var(--primary-pale);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* -------- Form Components -------- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-label {
+  font-size: 0.8125rem;   /* 13px */
+  font-weight: 600;
+  color: #374151;         /* gray-700 */
+  margin-bottom: 2px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 54px 10px 14px;
+  border: 1.5px solid #e5e7eb;   /* gray-200 */
+  border-radius: 12px;
+  font-size: 0.9375rem;          /* 15px */
+  color: #111827;
+  background: #f9fafb;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input:focus {
+  border-color: var(--primary-light);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.15);
+  outline: none;
+}
+
+.form-input.input-error {
+  border-color: #ef4444;
+  background: #fff5f5;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.10);
+}
+
+.input-unit {
+  position: absolute;
+  right: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;               /* gray-400 */
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Select specific */
+.select-wrapper .form-input {
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  font-size: 1rem;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.form-hint {
+  font-size: 0.71875rem;  /* ~11.5px */
+  color: #9ca3af;
+}
+
+.form-error {
+  font-size: 0.71875rem;
+  color: #dc2626;         /* red-600 */
+  font-weight: 500;
+}
+
+/* Remove number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
+
+/* -------- Result Cards entrance animation -------- */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-card {
+  animation: slideUp 0.4s ease-out both;
+}
+.result-card:nth-child(1) { animation-delay: 0.05s; }
+.result-card:nth-child(2) { animation-delay: 0.12s; }
+.result-card:nth-child(3) { animation-delay: 0.19s; }
+.result-card:nth-child(4) { animation-delay: 0.26s; }
+
+/* -------- Feature cards subtle pulse on hover -------- */
+.feature-card:hover {
+  box-shadow: 0 20px 40px -12px rgba(45, 106, 79, 0.15);
+}
+
+/* -------- Navbar scroll shadow -------- */
+#navbar.scrolled {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* -------- Responsive table -------- */
+@media (max-width: 640px) {
+  table {
+    font-size: 0.8125rem;
+  }
+}
+
+/* -------- Page transition -------- */
+main {
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

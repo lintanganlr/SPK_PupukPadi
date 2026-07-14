@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Meta -->
+  <title>{% block title %}SPK Pupuk Padi — PT Petrokimia Gresik{% endblock %}</title>
+  <meta name="description"
+    content="{% block meta_desc %}Sistem Pendukung Keputusan Penentuan Dosis Pupuk Padi Berbasis AI — Studi Kasus PT Petrokimia Gresik{% endblock %}" />
+  <meta name="author" content="Lintang Angraini Nur Laili Rahma" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#2d6a4f', light: '#40916c', dark: '#1b4332', pale: '#d8f3dc' },
+            secondary: { DEFAULT: '#a07850', light: '#d4a574', dark: '#7d5c3c', pale: '#fdf0e0' },
+            earth: '#6b4f2e',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  {% block head %}{% endblock %}
+</head>
+
+<body class="font-sans bg-gray-50 text-gray-800 antialiased">
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logo -->
+        <a href="{{ url_for('home') }}" class="flex items-center gap-2 group" id="nav-logo">
+          <img src="{{ url_for('static', filename='images/Logo6.svg') }}" alt="AgriSmart Logo"
+            class="w-20 h-20 object-contain transition-transform duration-200 group-hover:scale-105">
+          <div>
+            <span class="font-bold text-primary text-lg leading-tight block">AgriSmart</span>
+          </div>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-1" id="nav-links-desktop">
+          <a href="{{ url_for('home') }}"
+            class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                    {% if request.endpoint == 'home' %}text-primary bg-primary/10 font-semibold{% else %}text-gray-600 hover:text-primary hover:bg-primary/5{% endif %}">
+            Beranda
+          </a>
+          <a href="{{ url_for('edukasi') }}"
+            class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                    {% if request.endpoint == 'edukasi' %}text-primary bg-primary/10 font-semibold{% else %}text-gray-600 hover:text-primary hover:bg-primary/5{% endif %}">
+            Edukasi
+          </a>
+          <a href="{{ url_for('kalkulator') }}" id="nav-cta" class="ml-3 px-5 py-2 rounded-xl text-sm font-semibold text-white
+                    bg-gradient-to-r from-primary to-primary-light
+                    hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5
+                    transition-all duration-200">
+            Mulai Hitung
+          </a>
+        </div>
+
+        <!-- Mobile Hamburger -->
+        <button id="mobile-menu-btn" aria-label="Toggle menu"
+          class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pb-4">
+      <div class="flex flex-col gap-1 pt-3">
+        <a href="{{ url_for('home') }}"
+          class="px-4 py-3 rounded-lg text-sm font-medium
+                  {% if request.endpoint == 'home' %}text-primary bg-primary/10{% else %}text-gray-600 hover:text-primary hover:bg-primary/5{% endif %}">
+          🏠 Beranda
+        </a>
+        <a href="{{ url_for('kalkulator') }}"
+          class="px-4 py-3 rounded-lg text-sm font-medium
+                  {% if request.endpoint == 'kalkulator' %}text-primary bg-primary/10{% else %}text-gray-600 hover:text-primary hover:bg-primary/5{% endif %}">
+          🧮 Kalkulator
+        </a>
+        <a href="{{ url_for('edukasi') }}"
+          class="px-4 py-3 rounded-lg text-sm font-medium
+                  {% if request.endpoint == 'edukasi' %}text-primary bg-primary/10{% else %}text-gray-600 hover:text-primary hover:bg-primary/5{% endif %}">
+          📘 Edukasi
+        </a>
+        <a href="{{ url_for('kalkulator') }}" class="mt-2 px-5 py-3 rounded-xl text-sm font-semibold text-white text-center
+                  bg-gradient-to-r from-primary to-primary-light">
+          Mulai Hitung Dosis →
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="pt-16">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-primary-dark text-white mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <!-- Brand -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-3xl">🌾</span>
+            <div>
+              <p class="font-bold text-lg leading-none">AgriSmart</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-300 leading-relaxed">
+            Sistem Pendukung Keputusan berbasis AI untuk optimasi dosis pupuk tanaman padi sawah
+          </p>
+        </div>
+
+        <!-- Navigation -->
+        <div>
+          <p class="font-semibold text-primary-pale mb-3 text-sm uppercase tracking-wider">Navigasi</p>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li><a href="{{ url_for('home') }}" class="hover:text-white transition">Beranda</a></li>
+            <li><a href="{{ url_for('kalkulator') }}" class="hover:text-white transition">Kalkulator Dosis</a></li>
+            <li><a href="{{ url_for('edukasi') }}" class="hover:text-white transition">Edukasi Pemupukan</a></li>
+          </ul>
+        </div>
+
+        <!-- Research Info -->
+        <div>
+          <p class="font-semibold text-primary-pale mb-3 text-sm uppercase tracking-wider">Peneliti</p>
+          <div class="text-sm text-gray-300 space-y-1">
+            <p class="font-medium text-white">Lintang Angraini Nur Laili Rahma</p>
+            <p>NIM 434221057</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 pt-6 border-t border-white/10 text-center text-xs text-gray-400">
+        © 2026 AgriSmart SPK
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+
+</html>
